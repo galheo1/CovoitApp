@@ -1,5 +1,10 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+
+import { format, parseISO } from "date-fns";
+import { /* TODO : la locale française */ } from "date-fns/locale";
 export default function TripCard({ trip }) {
+    // TODO ci-dessous : construire une chaine de la forme "2026-09-15T08:00" à partir de trip.date (qui vaut par exemple 2026-09-15) et trip.time (par ex 08:00)
+    const departure = parseISO("2026-09-15T08:00");
+    const dateLabel = format(departure, "EEEE d MMMM 'à' HH'h'mm", {locale: departure});
     return (
         <Pressable onPress={() => console.log("Trajet sélectionné : " + trip.departure + " → " + trip.arrival)}
             style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}>
@@ -18,13 +23,13 @@ export default function TripCard({ trip }) {
                     <Text style={styles.price}>{trip.price} €</Text>
                 </View>
                 <Text>{trip.date}-{trip.time}</Text>
+                <Text>{dateLabel}</Text>
                 <Text>Nombre de place: {trip.seatsAvailable}</Text>
                 <Text>Conducteur: {trip.driver.name}</Text>
             </View>
         </Pressable>
     );
 }
-
 
 const styles = StyleSheet.create({
     card: {
